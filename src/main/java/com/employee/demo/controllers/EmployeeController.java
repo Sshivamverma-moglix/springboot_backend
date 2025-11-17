@@ -1,5 +1,6 @@
 package com.employee.demo.controllers;
 
+import com.employee.demo.dto.EmployeeResponse;
 import com.employee.demo.dto.PaginatedResponse;
 import com.employee.demo.entity.Employee;
 import com.employee.demo.services.EmployeeService;
@@ -21,9 +22,9 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
-    public PaginatedResponse<Employee> getAllEmployees(
-            @RequestParam(required = false) String manager,
-            @RequestParam(required = false) String department,
+    public PaginatedResponse<EmployeeResponse> getAllEmployees(
+            @RequestParam(required = false) Integer manager,
+            @RequestParam(required = false) Integer department,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit) {
@@ -32,22 +33,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/all-employees")
-    public List<Employee> getBulkEmployees() {
+    public List<EmployeeResponse> getBulkEmployees() {
         return employeeService.getBulkEmployees();
     }
 
     @GetMapping("/managers")
-    public List<Employee> getAllManagers() {
+    public List<EmployeeResponse> getAllManagers() {
         return employeeService.getAllManagers();
     }
 
     @GetMapping("{id}")
-    public Employee getEmployeeById(@PathVariable int id){
+    public EmployeeResponse getEmployeeById(@PathVariable int id){
         return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/add")
-    public Employee addEmployee(@RequestBody Employee employee){
+    public EmployeeResponse addEmployee(@RequestBody Employee employee){
         System.out.println(employee);
         return employeeService.addEmployee(employee);
     }
