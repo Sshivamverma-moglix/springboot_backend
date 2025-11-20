@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-//import javax.validation.*;
 
 @Entity
 @Table(name = "employees")
@@ -18,29 +17,28 @@ public class Employee {
     private String email;
     private String designation;
     private String phone;
-    @Column(name = "manager_id", nullable = true)
+    @Column(name = "manager_id")
     private Integer managerId;
-    @Column(name = "department_id", nullable = true)
+    @Column(name = "department_id")
     private Integer departmentId;
     @Column(name="created_date")
     private LocalDate createdDate;
 
     @PrePersist
     protected void onCreate() {
-        this.createdDate = LocalDate.now();
+        if (this.createdDate == null) {
+            this.createdDate = LocalDate.now();
+        }
     }
 
-    //department relationship
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Department department;
 
-    //self join between manager_id and employee id(each employee can have a manager)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Employee manager;
 
-    // Each manger can have many employees
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Employee> subordinates;
@@ -104,4 +102,3 @@ public class Employee {
     public List<Employee> getSubordinates() { return subordinates; }
     public void setSubordinates(List<Employee> subordinates) { this.subordinates = subordinates; }
 }
-

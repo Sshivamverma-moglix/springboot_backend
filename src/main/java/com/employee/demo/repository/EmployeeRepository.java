@@ -1,6 +1,5 @@
 package com.employee.demo.repository;
 
-import com.employee.demo.dto.EmployeeResponse;
 import com.employee.demo.entity.Employee;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +14,3 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>, Jp
     List<Employee> findAllManagers();
 
 }
-
